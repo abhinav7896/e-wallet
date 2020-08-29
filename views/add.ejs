@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://use.fontawesome.com/39ac5a0cbe.js"></script>
+</head>
+
+<body>
+    <%- include('header-loggedin') -%>
+        <div class="container">
+            <h1 class="display-4 text-center mb-3">Your Wallet</h1>
+            <div class="border border-dark p-5 rounded">
+                <div class="row">
+                    <form class="w-100" method="POST" action="/wallet/credit">
+                        <div class="alert alert-info text-center">The new balance will be added to your current balance</div>
+                        <label for="currentuser">Current User:</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">Username</span>
+                            </div>
+                            <input type="text" name="currentuser" id="curruser" value="<%= userWallet.user.username %>" class="form-control" readonly>
+                        </div>
+                        <label for="currentcash">Current Balance:</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">$</span>
+                            </div>
+                            <input type="number" name="currentcash" id="currcash" value="<%= Number((userWallet.cash).toFixed(2)) %>" class="form-control" aria-describedby="basic-addon1" readonly>
+                        </div>
+                        <label for="amount">Add Balance*:</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">$</span>
+                            </div>
+                            <input type="text" name="amount" id="amount" class="form-control" onkeyup="negativeQuan()" required>
+                        </div>
+                        <input type="submit" id="submitAmount" class="btn btn-lg btn-primary" value="Add To Balance">
+                    </form>
+                </div>
+            </div>
+        </div>
+</body>
+<footer>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script>
+        function negativeQuan() {
+            console.log("GHELLOO");
+            let amount = parseFloat(document.getElementById("amount").value);
+            if (amount < 0) {
+                alert("Invalid!! You are entering a negative amount!")
+                document.getElementById("submitAmount").disabled = true;
+            }
+            if (amount > 0 && amount != NaN) {
+                document.getElementById("submitAmount").disabled = false;
+            }
+        }
+    </script>
+</footer>
+
+</html>

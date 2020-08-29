@@ -1,0 +1,27 @@
+stages:
+    - build 
+
+variables:
+    GIT_STRATEGY: clone
+
+
+build:
+    tags:
+        - DalOpenStack
+    stage: build
+   
+    before_script:
+        - docker info | grep Registry
+        - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+
+    script:
+        - echo "Building"        
+        - docker build --pull -t "$CI_REGISTRY_IMAGE" .
+        - docker push "$CI_REGISTRY_IMAGE"
+
+    only:
+        - master
+        - release
+        - develop
+
+    when: manual
